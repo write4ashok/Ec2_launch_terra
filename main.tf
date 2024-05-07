@@ -1,15 +1,18 @@
-# use ubuntu 20 AMI for EC2 instance
-data "aws_ami" "ubuntu" {
-    most_recent = true
-# provision to us-east-2 region
+# main.tf
+
+# Define provider
 provider "aws" {
-  region  = "ap-south-1"
+  region = "ap-south-1"  # Specify your desired region
 }
-resource "aws_instance" "app_server" {
-  ami           = ami-007020fd9c84e18c7
-  instance_type = "t2.micro"
-  key_name      = "jenkinspipe.pem"
-tags = {
-    Name = var.ec2_name
-  }
+
+# Define EC2 instance
+resource "aws_instance" "example" {
+  ami           = "ami-05295b6e6c790593e"  # Specify the AMI ID for your desired OS
+  instance_type = "t2.micro"               # Specify the instance type
+  key_name      = "jenkinspipe.pem"     # Specify the key pair name to access the instance
+}
+
+# Output the public IP address of the instance
+output "instance_public_ip" {
+  value = aws_instance.example.public_ip
 }
